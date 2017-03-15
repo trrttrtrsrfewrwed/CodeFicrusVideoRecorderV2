@@ -23,6 +23,7 @@ public class Main extends JFrame{
     HeroLine heroline;
     private int posX;
     private int posY;
+    
 
     //Добавление слушателей древу, линейке персонажей и кнопкам
     public void init(){
