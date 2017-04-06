@@ -16,6 +16,8 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
     private Point lastDragPosition;
     private VideoField frameToResize;
     private Hero heroToResize;
+    public Button close;
+    public Button minimize;
     private int dragDirection;
     private int k=0;
     private int RESIZE_BORDER_SIZE=VideoField.border;
@@ -24,9 +26,11 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
     private int WEST=7;
     private int EAST=13;
 
-    public ResizerPane(VideoField frame,Hero hero){
+    public ResizerPane(VideoField frame,Hero hero,Button close,Button minimize){
         frameToResize=frame;
         heroToResize=hero;
+        this.close=close;
+        this.minimize=minimize;
     }
     public void setK(int k){
         this.k=k;
@@ -59,17 +63,6 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
             result += SOUTH;
         return result;
     }
-    public boolean contains(int x, int y) {
-        int width = getWidth();
-        int height = getHeight();
-
-        if (width <= 0 || height <= 0)
-            return false;
-
-        return (getBorderSide(x, y) > 0);
-    }
-
-
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -152,6 +145,8 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
         }
         if (width>=VideoField.border*20&&height>=(VideoField.border*2+ menuborder)){
         frameToResize.setBounds(x, y, width, height);
+        close.setBounds(width-close.width-5,5,close.width,close.height);
+        minimize.setBounds(width-close.width*2-10,12,close.width,close.height);
         heroToResize.setBounds(VideoField.border,VideoField.border+VideoField.menuborder,width-VideoField.border*2,height-VideoField.border*2-VideoField.menuborder);}
         com.sun.awt.AWTUtilities.setWindowShape(frameToResize,frameToResize.setShape(frameToResize.screenpart));
         lastDragPosition = currentDragPosition;
@@ -164,20 +159,26 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
             setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
             return;
         }
-
-        if (border == (SOUTH+WEST) || border == (NORTH+EAST)) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-            return;
-        }
-
-        if (border == EAST || border == WEST) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
-            return;
-        }
-
-        if (border == NORTH || border == SOUTH) {
-            setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-            return;
+        else {
+            if (border == (SOUTH + WEST) || border == (NORTH + EAST)) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
+                return;
+            }
+            else {
+                if (border == EAST || border == WEST) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
+                    return;
+                }
+                else {
+                    if (border == NORTH || border == SOUTH) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
+                        return;
+                    }
+                    else {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    }
+                }
+            }
         }
     }
 
