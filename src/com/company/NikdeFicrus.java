@@ -72,8 +72,10 @@ public class NikdeFicrus extends Hero  implements Runnable{
             int BIheight = BIwidth*652/400;
 
             int H_B = height / 25;
+            Point newPosition = new Point(20,20);
+            double angle = Math.atan((newPosition.x-VideoField.center.x)/(newPosition.y-VideoField.center.y));
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
-            g.drawImage(headImage, x + width*97 / 200+height*83*154/(924*103)-HIwidth, y + height- BIheight*275/400 - HIheight + H_B, HIwidth, HIheight, null);
+            g.drawImage(rotate(angle).filter(Main.toBufferedImage(headImage), null), x + width*97 / 200+height*83*154/(924*103)-HIwidth, y + height- BIheight*275/400 - HIheight + H_B, (int)(HIheight*Math.sin(angle)+Math.cos(angle)*HIwidth),(int)(HIheight*Math.cos(angle)+Math.sin(angle)*HIwidth), null);
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);

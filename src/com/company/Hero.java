@@ -2,6 +2,8 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
 /**
  * Created by Евросеть on 22.03.2017.
@@ -15,11 +17,20 @@ public class Hero extends JPanel {
     Image headImage;
     Image bodyImage;
     int isFunk;
+
     public Hero(){
         screenpart=1;
     }
     public void setScreenpart(int screenpart){
         this.screenpart=screenpart;
+    }
+    protected AffineTransformOp rotate(double angle){
+        double rotationRequired = angle;
+        double locationX = headImage.getWidth(null)/2;
+        double locationY = headImage.getHeight(null);
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        return op;
     }
     public void paint(Graphics g){
         if (screenpart==1){
@@ -39,6 +50,5 @@ public class Hero extends JPanel {
         }
         g.setColor(Color.cyan);
         g.fillRect(x,y,width,height);
-
     }
 }

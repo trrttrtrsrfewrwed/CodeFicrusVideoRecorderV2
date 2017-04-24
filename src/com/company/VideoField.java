@@ -16,12 +16,12 @@ public class VideoField extends JFrame {
     private int posY;
     private int[] heroarr;
     private Hero hero;
-
     private int width = 1000;
     private int height = 649;
     public static int border = 5;
     public static int menuborder = 20;
     public int screenpart = 1;
+    public static Point center; //!!!!!!!!!!!!!!!!!!
 
     public VideoField() {
     }
@@ -50,6 +50,7 @@ public class VideoField extends JFrame {
                 videoField.setUndecorated(true);
                 videoField.setLayout(new BorderLayout());
                 videoField.setPreferredSize(new Dimension(videoField.width, videoField.height));
+                VideoField.center=new Point(1280/2,720*3/4); //!!!!!!!!!!!!!!тут вообще вопрос, должно зависеть только от размеров получаемого с камеры изображения
                 videoField.hero = videoField.setHero(arr[0]);
                 Button close = new Button(0, 0, 10, 10, new ButtonImage("res/closeimage.png", "res/closeimageclicked.png", "res/closeimageentered.png"));
                 close.setBounds(1000 - close.width - 5, 5, close.width, close.height);
