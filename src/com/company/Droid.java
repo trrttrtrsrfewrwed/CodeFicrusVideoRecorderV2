@@ -1,5 +1,7 @@
 package com.company;
 
+import org.opencv.videoio.VideoCapture;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -8,9 +10,9 @@ import java.util.TimerTask;
 /**
  * Created by Евросеть on 30.03.2017.
  */
-public class Droid extends Hero  implements Runnable{
-    Droid(){
-        screenpart=1;
+public class Droid extends Hero {
+    Droid(int screenpart, VideoCapture camera){
+        super(screenpart, camera);
         URL imgURL = NikdeFicrus.class.getResource("res/droidhead.png");
         headImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/droidbody.png");
@@ -80,13 +82,4 @@ public class Droid extends Hero  implements Runnable{
         }
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            repaint();
-            try {
-                Thread.sleep(83);
-            } catch (InterruptedException ex) {}
-        }
-    }
 }

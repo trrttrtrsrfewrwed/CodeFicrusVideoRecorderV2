@@ -1,5 +1,7 @@
 package com.company;
 
+import org.opencv.videoio.VideoCapture;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -8,9 +10,9 @@ import java.util.TimerTask;
 /**
  * Created by Евросеть on 30.03.2017.
  */
-public class Alien extends Hero  implements Runnable{
-    Alien(){
-        screenpart=1;
+public class Alien extends Hero{
+    Alien(int screenpart, VideoCapture camera){
+        super(screenpart, camera);
         URL imgURL = NikdeFicrus.class.getResource("res/Alienhead.png");
         headImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Alienbody.png");
@@ -73,20 +75,11 @@ public class Alien extends Hero  implements Runnable{
 
             int H_B = height / 5;
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
-            g.drawImage(headImage, x + width/2-width/14, y + height- BIheight*275/400 - HIheight , HIwidth, HIheight, null);
+            g.drawImage(headImage, x + width/2-HIwidth*9/20, y + height- BIheight*275/400 - HIheight , HIwidth, HIheight, null);
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);
         }
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            repaint();
-            try {
-                Thread.sleep(83);
-            } catch (InterruptedException ex) {}
-        }
-    }
 }

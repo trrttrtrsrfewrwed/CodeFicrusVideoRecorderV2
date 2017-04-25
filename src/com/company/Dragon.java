@@ -1,5 +1,7 @@
 package com.company;
 
+import org.opencv.videoio.VideoCapture;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -8,9 +10,9 @@ import java.util.TimerTask;
 /**
  * Created by Евросеть on 30.03.2017.
  */
-public class Dragon extends Hero  implements Runnable{
-    Dragon(){
-        screenpart=1;
+public class Dragon extends Hero {
+    Dragon(int screenpart, VideoCapture camera){
+        super(screenpart, camera);
         URL imgURL = NikdeFicrus.class.getResource("res/dragonhead.png");
         headImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/dragonbody.png");
@@ -77,16 +79,6 @@ public class Dragon extends Hero  implements Runnable{
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);
-        }
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            repaint();
-            try {
-                Thread.sleep(83);
-            } catch (InterruptedException ex) {}
         }
     }
 }

@@ -171,11 +171,10 @@ public class Main extends JFrame{
         playbutton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                frame.setState(JFrame.ICONIFIED);
+                frame.dispose();
                 int []arr= new int[frame.heroline.buttons.length];
                 for (int i=0;i<frame.heroline.buttons.length;i++){
                     arr[i]=frame.heroline.buttons[i].getI();
-                    System.out.println(arr[i]);
                 }
                 VideoField.main(arr);
 

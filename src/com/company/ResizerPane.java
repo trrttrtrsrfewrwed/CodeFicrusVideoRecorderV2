@@ -13,6 +13,8 @@ import static com.company.VideoField.menuborder;
  * Created by Евросеть on 15.03.2017.
  */
 public class ResizerPane extends JPanel implements MouseMotionListener, MouseListener {
+    private int posX;
+    private int posY;
     private Point lastDragPosition;
     private VideoField frameToResize;
     private Hero heroToResize;
@@ -31,6 +33,9 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
         heroToResize=hero;
         this.close=close;
         this.minimize=minimize;
+    }
+    public void setHero(Hero hero){
+        heroToResize=hero;
     }
     public void setK(int k){
         this.k=k;
@@ -72,6 +77,9 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
     public void mousePressed(MouseEvent e) {
         lastDragPosition = e.getLocationOnScreen();
         dragDirection = getBorderSide(e.getX(), e.getY());
+
+        posX = e.getX();
+        posY = e.getY();
     }
 
 
@@ -104,52 +112,67 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
         int y = currentBounds.y;
         int width = currentBounds.width;
         int height = currentBounds.height;
+        if (dragDirection == 0) {
+            int thisX = frameToResize.getLocation().x;
+            int thisY = frameToResize.getLocation().y;
 
-        if (dragDirection == WEST) {
-            x = currentBounds.x + deltaX;
-            width = currentBounds.width - deltaX;
-        }
 
-        if (dragDirection == EAST) {
-            width = currentBounds.width + deltaX;
-        }
+            int xMoved = e.getX() - posX;
+            int yMoved = e.getY() - posY;
 
-        if (dragDirection == NORTH) {
-            y = currentBounds.y + deltaY;
-            height = currentBounds.height - deltaY;
-        }
+            int X = thisX + xMoved;
+            int Y = thisY + yMoved;
+            frameToResize.setLocation(X, Y);
+        } else {
+            if (dragDirection == WEST) {
+                x = currentBounds.x + deltaX;
+                width = currentBounds.width - deltaX;
+            }
 
-        if (dragDirection == SOUTH) {
-            height = currentBounds.height + deltaY;
-        }
-        if (dragDirection == NORTH+EAST){
-            width = currentBounds.width + deltaX;
-            y = currentBounds.y + deltaY;
-            height = currentBounds.height - deltaY;
-        }
-        if (dragDirection == NORTH+WEST){
-            y = currentBounds.y + deltaY;
-            height = currentBounds.height - deltaY;
-            x = currentBounds.x + deltaX;
-            width = currentBounds.width - deltaX;
-        }
-        if (dragDirection==SOUTH+EAST){
-            height = currentBounds.height + deltaY;
-            width = currentBounds.width + deltaX;
-        }
+            if (dragDirection == EAST) {
+                width = currentBounds.width + deltaX;
+            }
 
-        if (dragDirection == SOUTH+WEST){
-            height = currentBounds.height + deltaY;
-            x = currentBounds.x + deltaX;
-            width = currentBounds.width - deltaX;
+            if (dragDirection == NORTH) {
+                y = currentBounds.y + deltaY;
+                height = currentBounds.height - deltaY;
+            }
+
+            if (dragDirection == SOUTH) {
+                height = currentBounds.height + deltaY;
+            }
+            if (dragDirection == NORTH + EAST) {
+                width = currentBounds.width + deltaX;
+                y = currentBounds.y + deltaY;
+                height = currentBounds.height - deltaY;
+            }
+            if (dragDirection == NORTH + WEST) {
+                y = currentBounds.y + deltaY;
+                height = currentBounds.height - deltaY;
+                x = currentBounds.x + deltaX;
+                width = currentBounds.width - deltaX;
+            }
+            if (dragDirection == SOUTH + EAST) {
+                height = currentBounds.height + deltaY;
+                width = currentBounds.width + deltaX;
+            }
+
+            if (dragDirection == SOUTH + WEST) {
+                height = currentBounds.height + deltaY;
+                x = currentBounds.x + deltaX;
+                width = currentBounds.width - deltaX;
+            }
+            if (width >= VideoField.border * 20 && height >= (VideoField.border * 2 + menuborder)) {
+                frameToResize.setBounds(x, y, width, height);
+                frameToResize.setWidth(width);
+                frameToResize.setHeight(height);
+                close.setBounds(width - close.width - 5, 5, close.width, close.height);
+                minimize.setBounds(width - close.width * 2 - 10, 12, close.width, close.height);
+                heroToResize.setBounds(VideoField.border, VideoField.border + VideoField.menuborder, width - VideoField.border * 2, height - VideoField.border * 2 - VideoField.menuborder);
+            }
+            com.sun.awt.AWTUtilities.setWindowShape(frameToResize, frameToResize.setShape(frameToResize.screenpart));
+            lastDragPosition = currentDragPosition;
         }
-        if (width>=VideoField.border*20&&height>=(VideoField.border*2+ menuborder)){
-        frameToResize.setBounds(x, y, width, height);
-        close.setBounds(width-close.width-5,5,close.width,close.height);
-        minimize.setBounds(width-close.width*2-10,12,close.width,close.height);
-        heroToResize.setBounds(VideoField.border,VideoField.border+VideoField.menuborder,width-VideoField.border*2,height-VideoField.border*2-VideoField.menuborder);}
-        com.sun.awt.AWTUtilities.setWindowShape(frameToResize,frameToResize.setShape(frameToResize.screenpart));
-        lastDragPosition = currentDragPosition;
     }
 
     @Override
