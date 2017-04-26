@@ -84,9 +84,17 @@ public class NikdeFicrus extends Hero {
             int H_B = height / 25;
             //Point newPosition = new Point(20,20);
             //double angle = Math.atan((newPosition.x-VideoField.center.x)/(newPosition.y-VideoField.center.y));
-            double angle = Math.toRadians(-60);
+            double angle = Math.toRadians(30);
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
-            g.drawImage(rotate(angle).filter(Main.toBufferedImage(headImage), null), x + width*97 / 200+height*83*154/(924*103)-HIwidth, y + height- BIheight*275/400 - HIheight + H_B, (int)(Math.abs(HIheight*Math.sin(angle))+Math.abs(Math.cos(angle)*HIwidth)),(int)(Math.abs(HIheight*Math.cos(angle))+Math.abs(Math.sin(angle)*HIwidth)), null);
+            Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,H_B);
+            double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+            int w = HIwidth, h=HIheight;
+            int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
+            int r =HIheight/2-H_B;
+            if (angle>=0){
+                r=-r;
+            }
+            g.drawImage(rotatedImage, (int)(x + width*97 / 200+height*83*154/(924*103)-HIwidth+(w-neww)/2-r*sin), (int)(y + height- BIheight*275/400 - HIheight + H_B+(h-newh)/2+r*(1-cos)), neww,newh, null);
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);

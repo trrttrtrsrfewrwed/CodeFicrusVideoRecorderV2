@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by Евросеть on 22.03.2017.
@@ -57,14 +58,27 @@ public class Hero extends JPanel implements Runnable{
         g.fillRect(x,y,width,height);
 }
 
-    protected AffineTransformOp rotate(double angle){
+    public static BufferedImage rotate(BufferedImage image, double angle,int H_B) {
+        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+        int w = image.getWidth(), h = image.getHeight();
+        int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
+        BufferedImage result = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = result.createGraphics();
         double rotationRequired = angle;
-        double locationX = headImage.getWidth(null)/2;
-        double locationY = headImage.getHeight(null)/2;
+        double locationX = image.getWidth(null)/2;
+        double locationY = image.getHeight(null)-H_B;
+        double r=locationY-h/2;
+        if (angle>=0){
+            r=-r;
+        }
         AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        tx.preConcatenate(new AffineTransform(1, 0, 0, 1, (neww-w)/2+r*sin, (newh-h)/2+r*(cos-1)));
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        return op;
+        g.drawImage(op.filter(image, null),0,0,null);
+        g.dispose();
+        return result;
     }
+
 
     @Override
     public void run() {
