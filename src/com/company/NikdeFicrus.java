@@ -17,8 +17,8 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class NikdeFicrus extends Hero {
-    NikdeFicrus(int screenpart, VideoCapture camera) {
-        super(screenpart, camera);
+    NikdeFicrus(int screenpart,VideoCapture camera) {
+        super(screenpart,camera);
         URL imgURL = NikdeFicrus.class.getResource("res/Nikhead.png");
         headImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Nikbody.png");
@@ -40,8 +40,6 @@ public class NikdeFicrus extends Hero {
         g.drawImage(Nikimage, x + width / 2 - Nikwidth / 2, y + height - Nikheight, Nikwidth, Nikheight, null);
         g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);
     }
-
-    private long t = System.nanoTime();
     private int i = 0;
 
     @Override
@@ -84,13 +82,21 @@ public class NikdeFicrus extends Hero {
             int H_B = height / 25;
             //Point newPosition = new Point(20,20);
             //double angle = Math.atan((newPosition.x-VideoField.center.x)/(newPosition.y-VideoField.center.y));
-            double angle = Math.toRadians(30);
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
             Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,H_B);
             double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
             int w = HIwidth, h=HIheight;
             int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
             int r =HIheight/2-H_B;
+
+            //п/36
+            double nanoAngle = Math.PI/36;
+            if (angle-newangle>nanoAngle){
+                angle-=nanoAngle;
+            }
+            if (newangle-angle>nanoAngle){
+                angle+=nanoAngle;
+            }
             if (angle>=0){
                 r=-r;
             }

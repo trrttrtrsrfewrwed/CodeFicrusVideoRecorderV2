@@ -11,8 +11,8 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class Liften extends Hero {
-    Liften(int screenpart, VideoCapture camera){
-        super(screenpart, camera);
+    Liften(int screenpart,VideoCapture camera){
+        super(screenpart,camera);
         URL imgURL = NikdeFicrus.class.getResource("res/liftenhead.png");
         headImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/liftenbody.png");

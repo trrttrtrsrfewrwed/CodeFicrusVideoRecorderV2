@@ -1,6 +1,7 @@
 package com.company;
 
 import org.opencv.core.*;
+import org.opencv.core.Point;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -26,6 +27,8 @@ public class Hero extends JPanel implements Runnable{
     Image bodyImage;
     int isFunk;
     VideoCapture camera;
+    double angle =0;
+    double newangle =0;
     CascadeClassifier faceDetector = new CascadeClassifier("lbpcascade_frontalface.xml");
     public Hero(int screenpart,VideoCapture camera){
         this.screenpart=screenpart;
@@ -56,7 +59,7 @@ public class Hero extends JPanel implements Runnable{
         }
         g.setColor(Color.cyan);
         g.fillRect(x,y,width,height);
-}
+    }
 
     public static BufferedImage rotate(BufferedImage image, double angle,int H_B) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
@@ -85,13 +88,17 @@ public class Hero extends JPanel implements Runnable{
         if (!camera.isOpened()) {
             System.out.println("Error");
         } else {
-            int index = 0;
             Mat frame = new Mat();
             while (true) {
-               if (isFunk==0){
-                        MatOfRect faceDetections = new MatOfRect();
-                        faceDetector.detectMultiScale(frame, faceDetections);
-                        for (Rect rect : faceDetections.toArray()) {}
+                if (isFunk==0){
+                    camera.read(frame);
+                    MatOfRect faceDetections = new MatOfRect();
+                    faceDetector.detectMultiScale(frame, faceDetections);
+                    for (Rect rect : faceDetections.toArray()) {
+                        Point newPosition = new Point(rect.x+rect.width/2, rect.y+rect.height/2);
+                        newangle = - Math.atan((newPosition.x-VideoField.center.x)/(VideoField.center.y-newPosition.y));
+                        System.out.println(newangle);
+                    }
                 }
                 repaint();
                 try {

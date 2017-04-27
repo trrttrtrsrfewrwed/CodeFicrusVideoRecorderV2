@@ -56,7 +56,7 @@ public class VideoField extends JFrame {
                 videoField.setLayout(new BorderLayout());
                 videoField.setPreferredSize(new Dimension(videoField.width, videoField.height));
                 videoField.hero = videoField.setHero(arr[0],camera);
-                VideoField.center=new Point(1280/2,720*3/4); //!!!!!!!!!!!!!!тут вообще вопрос, должно зависеть только от размеров получаемого с камеры изображения
+                VideoField.center=new Point(250,400); //!!!!!!!!!!!!!!тут вообще вопрос, должно зависеть только от размеров получаемого с камеры изображения
                 Button close = new Button(0, 0, 10, 10, new ButtonImage("res/closeimage.png", "res/closeimageclicked.png", "res/closeimageentered.png"));
                 close.setBounds(1000 - close.width - 5, 5, close.width, close.height);
                 Button minimize = new Button(0, 0, 10, 3, new ButtonImage("res/minimizeimage.png", "res/minimizeimageclicked.png", "res/minimizeimageentered.png"));

@@ -11,8 +11,8 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class IronCreature extends Hero{
-    IronCreature(int screenpart, VideoCapture camera){
-        super(screenpart, camera);
+    IronCreature(int screenpart,VideoCapture camera){
+        super(screenpart,camera);
         URL imgURL = NikdeFicrus.class.getResource("res/ironhead.png");
         headImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/ironbody.png");

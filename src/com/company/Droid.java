@@ -11,7 +11,7 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class Droid extends Hero {
-    Droid(int screenpart, VideoCapture camera){
+    Droid(int screenpart,VideoCapture camera){
         super(screenpart, camera);
         URL imgURL = NikdeFicrus.class.getResource("res/droidhead.png");
         headImage = new ImageIcon(imgURL).getImage();
