@@ -11,15 +11,15 @@ import java.awt.event.MouseListener;
 public class Button extends JPanel{
     int x;
     int y;
-    int k=0;/* для кнопок уже выбранных персонажей:
-    mousePressed или mouseClicked  rect.contains(mouseX,mouseY)==false - k=0;
-                                   rect.contains(mouseX,mouseY)==true - k=1
+    int k=0;/*
+    для кнопок уже выбранных персонажей:
+    mousePressed или mouseClicked  k=1
     mouseExited if (k!=1) - k=0
     mouseEntered if (k!=1) - k=-1
      */
     int width;
     int height;
-    ButtonImage buttonImage;
+    ButtonImage buttonImage;  //три изображения кнопки (нажатие, наведение, обычное состояние)
     Rectangle rect;
 
     public Button(int x,int y,int width,int height,ButtonImage buttonImage){

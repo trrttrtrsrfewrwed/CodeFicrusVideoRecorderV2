@@ -17,10 +17,14 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class NikdeFicrus extends Hero {
-    NikdeFicrus(int screenpart,VideoCapture camera) {
-        super(screenpart,camera);
+    NikdeFicrus(int screenpart) {
+        super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/Nikhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        imgURL = NikdeFicrus.class.getResource("res/Nikhead.png");
+        notsayingImage = new ImageIcon(imgURL).getImage();
+        imgURL = NikdeFicrus.class.getResource("res/Nikheadasking.png");
+        sayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Nikbody.png");
         bodyImage = new ImageIcon(imgURL).getImage();
         new Thread(this).start();
@@ -79,28 +83,32 @@ public class NikdeFicrus extends Hero {
             int BIwidth = Swidth;
             int BIheight = BIwidth * 652 / 400;
 
-            int H_B = height / 25;
+            double  deltay = 924 / 3925;
+            double  deltax=0;
             //Point newPosition = new Point(20,20);
             //double angle = Math.atan((newPosition.x-VideoField.center.x)/(newPosition.y-VideoField.center.y));
+
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
-            Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,H_B);
+            Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,deltay,deltax);
+            deltay = height/25;
             double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
             int w = HIwidth, h=HIheight;
             int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
-            int r =HIheight/2-H_B;
+            double r =Math.sqrt((HIheight/2-deltay)*(HIheight/2-deltay)+deltax*deltax);
 
             //п/36
-            double nanoAngle = Math.PI/36;
+            double nanoAngle = Math.PI/72;
             if (angle-newangle>nanoAngle){
                 angle-=nanoAngle;
             }
             if (newangle-angle>nanoAngle){
                 angle+=nanoAngle;
             }
-            if (angle>=0){
-                r=-r;
-            }
-            g.drawImage(rotatedImage, (int)(x + width*97 / 200+height*83*154/(924*103)-HIwidth+(w-neww)/2-r*sin), (int)(y + height- BIheight*275/400 - HIheight + H_B+(h-newh)/2+r*(1-cos)), neww,newh, null);
+            sin = Math.sin(angle);
+            cos = Math.cos(angle);
+            double x1 = sin*Math.sqrt(r*r-deltax*deltax)+deltax*cos;
+            double y1 =Math.sqrt(r*r-x1*x1);
+            g.drawImage(rotatedImage, (int)(x + width*97 / 200+height*83*154/(924*103)-HIwidth+(w-neww)/2+x1-deltax), (int)(y + height*26/25- BIheight*275/400 - HIheight +(h-newh)/2+-y1+Math.sqrt(r*r-deltax*deltax)), neww,newh, null);
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);

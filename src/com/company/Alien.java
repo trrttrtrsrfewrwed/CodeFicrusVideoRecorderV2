@@ -11,10 +11,14 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class Alien extends Hero{
-    Alien(int screenpart, VideoCapture camera){
-        super(screenpart, camera);
+    Alien(int screenpart){
+        super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/Alienhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        imgURL = NikdeFicrus.class.getResource("res/Alienhead.png");
+        notsayingImage = new ImageIcon(imgURL).getImage();
+        imgURL = NikdeFicrus.class.getResource("res/Alienheadasking.png");
+        sayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Alienbody.png");
         bodyImage = new ImageIcon(imgURL).getImage();
         new Thread(this).start();
@@ -70,12 +74,33 @@ public class Alien extends Hero{
             int Swidth = Sheight * 599 / 583;
             int BIwidth=Swidth;
             int BIheight = BIwidth*533/400;
-            int HIheight = BIheight * 164 / 533;
-            int HIwidth = (160* HIheight / 164);
+            int HIwidth = BIheight * 160 / 533;
+            int HIheight = (headImage.getHeight(null)* HIwidth / headImage.getWidth(null));
 
-            int H_B = height / 5;
+            double deltay = 0.352911;
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
-            g.drawImage(headImage, x + width/2-HIwidth*9/20, y + height- BIheight*275/400 - HIheight , HIwidth, HIheight, null);
+            double deltax = 1/8;
+            Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,deltay,deltax);
+            deltay*=HIheight;
+            deltax*=HIwidth;
+            double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+            int w = HIwidth, h=HIheight;
+            int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
+            double r =Math.sqrt((HIheight/2-deltay)*(HIheight/2-deltay)+deltax*deltax);
+
+            //п/36
+            double nanoAngle = Math.PI/72;
+            if (angle-newangle>nanoAngle){
+                angle-=nanoAngle;
+            }
+            if (newangle-angle>nanoAngle){
+                angle+=nanoAngle;
+            }
+            sin = Math.sin(angle);
+            cos = Math.cos(angle);
+            double x1 = sin*Math.sqrt(r*r-deltax*deltax)+deltax*cos;
+            double y1 =Math.sqrt(r*r-x1*x1);
+            g.drawImage(rotatedImage,(int)( x + width/2-HIwidth*9/20+(w-neww)/2+x1-deltax),(int)( y + height- BIheight*275/400 - HIheight+(h-newh)/2-y1+Math.sqrt(r*r-deltax*deltax)) ,neww, newh, null);
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);

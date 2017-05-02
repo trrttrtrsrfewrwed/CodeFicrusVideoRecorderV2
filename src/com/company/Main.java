@@ -16,11 +16,11 @@ import java.net.URL;
 
 
 public class Main extends JFrame{
-    Image []HeroImage;
-    Image basicImage;
-    Review review;
-    Drevo drevo;
-    HeroLine heroline;
+    private Image []HeroImage;
+    private Image basicImage;
+    private Review review;
+    private Drevo drevo;
+    private HeroLine heroline;
     private int posX;
     private int posY;
 
@@ -51,6 +51,7 @@ public class Main extends JFrame{
         }
         return s;
     }
+    //Преобразование из Image в BufferedImage
     public static BufferedImage toBufferedImage(Image img)
     {
         if (img instanceof BufferedImage)
@@ -75,13 +76,16 @@ public class Main extends JFrame{
         //создание и наполнение фрейма
         Main frame = new Main();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Создание древа, линейки персонажей и окна обзора персонажа
         frame.drevo = new Drevo();
         frame.heroline = new HeroLine();
         frame.review = new Review();
         frame.drevo.setPreferredSize(new Dimension(410,1000));
+        //Создание полосы прокрутки для древа персонажей (Так как персонажей может быть слишком много)
         JScrollPane scrollPane = new JScrollPane(frame.drevo);
+        //Горизонтальная полоса прокрутки не должна быть видна
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        //устанавливаю форму окна
+        //устанавливаю форму фрейма
         frame.setUndecorated(true);
        /*URL imgURL = Main.class.getResource("menu.png");
         Image image = new ImageIcon(imgURL).getImage();
@@ -89,7 +93,7 @@ public class Main extends JFrame{
         Shape shape = contour(img);
         com.sun.awt.AWTUtilities.setWindowShape(frame, shape);*/
 
-
+        //Добавление всех компонентов на панель
         frame.getContentPane().setLayout(new BorderLayout());
         Background panel = new Background();
         panel.setLayout(null);
@@ -99,6 +103,7 @@ public class Main extends JFrame{
         panel.add(frame.review);
         scrollPane.setBounds(200,200,410,300);
         panel.add(scrollPane);
+        //Создание кнопки закрыть
         Button close = new Button(0,0,20,20,new ButtonImage("res/closeimage.png","res/closeimageclicked.png","res/closeimageentered.png"));
         close.setBounds(825,65,close.width,close.height);
         close.addMouseListener(new MouseListener() {
@@ -133,6 +138,7 @@ public class Main extends JFrame{
             }
         });
         panel.add(close);
+        //Создание кнопки свернуть
         Button minimize = new Button(0,0,20,5,new ButtonImage("res/minimizeimage.png","res/minimizeimageclicked.png","res/minimizeimageentered.png"));
         minimize.setBounds(800,80,close.width,close.height);
         minimize.addMouseListener(new MouseListener() {
@@ -166,6 +172,7 @@ public class Main extends JFrame{
             }
         });
         panel.add(minimize);
+        //Создание кнопки play, запускающей видеорекордер
         Button playbutton = new Button(0,0,80,92,new ButtonImage("res/playbutton.png","res/playbuttonclicked.png","res/playbuttonentered.png"));
         playbutton.setBounds(760,410,playbutton.width,playbutton.height);
         playbutton.addMouseListener(new MouseListener() {
@@ -211,6 +218,7 @@ public class Main extends JFrame{
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        //  Добавляю изображения героев и базовое изображение, если ни один герой не выбран
         frame.HeroImage = new Image[6];
         URL imgURL = MyRect.class.getResource("res/Nikreview.png");
         frame.HeroImage[0]=new ImageIcon(imgURL).getImage();

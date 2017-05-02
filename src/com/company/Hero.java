@@ -25,14 +25,14 @@ public class Hero extends JPanel implements Runnable{
     int screenpart;
     Image headImage;
     Image bodyImage;
+    Image sayingImage;
+    Image notsayingImage;
     int isFunk;
-    VideoCapture camera;
-    double angle =0;
-    double newangle =0;
-    CascadeClassifier faceDetector = new CascadeClassifier("lbpcascade_frontalface.xml");
-    public Hero(int screenpart,VideoCapture camera){
+    double angle=0;
+    double newangle=0;
+
+    public Hero(int screenpart){
         this.screenpart=screenpart;
-        this.camera = camera;
     }
 
     public Hero(){
@@ -59,23 +59,26 @@ public class Hero extends JPanel implements Runnable{
         }
         g.setColor(Color.cyan);
         g.fillRect(x,y,width,height);
-    }
+}
 
-    public static BufferedImage rotate(BufferedImage image, double angle,int H_B) {
+    public static BufferedImage rotate(BufferedImage image, double angle,double deltay,double deltax) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
         int w = image.getWidth(), h = image.getHeight();
+        deltax=w*deltax;
+        deltay=h*deltay;
         int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
         BufferedImage result = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = result.createGraphics();
         double rotationRequired = angle;
-        double locationX = image.getWidth(null)/2;
-        double locationY = image.getHeight(null)-H_B;
-        double r=locationY-h/2;
-        if (angle>=0){
-            r=-r;
-        }
+        double locationX = w/2-deltax;
+        double locationY = h-deltay;
+        double r=Math.sqrt((locationY-h/2)*(locationY-h/2)+(deltax)*(deltax));
+        sin = Math.sin(angle);
+        cos=Math.cos(angle);
+        double x = sin*Math.sqrt(r*r-deltax*deltax)+deltax*cos;
+        double y =Math.sqrt(r*r-x*x);
         AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-        tx.preConcatenate(new AffineTransform(1, 0, 0, 1, (neww-w)/2+r*sin, (newh-h)/2+r*(cos-1)));
+        tx.preConcatenate(new AffineTransform(1, 0, 0, 1, (neww-w)/2-x+deltax, (newh-h)/2+y-Math.sqrt(r*r-deltax*deltax)));
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         g.drawImage(op.filter(image, null),0,0,null);
         g.dispose();
@@ -85,28 +88,14 @@ public class Hero extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        if (!camera.isOpened()) {
-            System.out.println("Error");
-        } else {
-            Mat frame = new Mat();
-            while (true) {
-                if (isFunk==0){
-                    camera.read(frame);
-                    MatOfRect faceDetections = new MatOfRect();
-                    faceDetector.detectMultiScale(frame, faceDetections);
-                    for (Rect rect : faceDetections.toArray()) {
-                        Point newPosition = new Point(rect.x+rect.width/2, rect.y+rect.height/2);
-                        newangle = - Math.atan((newPosition.x-VideoField.center.x)/(VideoField.center.y-newPosition.y));
-                        System.out.println(newangle);
-                    }
-                }
-                repaint();
-                try {
-                    Thread.sleep(83);
-                } catch (InterruptedException ex) {
-                }
+        while (true) {
+            repaint();
+            try {
+                Thread.sleep(83);
+            } catch (InterruptedException ex) {
             }
-
         }
     }
-}
+
+        }
+

@@ -11,10 +11,14 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class IronCreature extends Hero{
-    IronCreature(int screenpart,VideoCapture camera){
-        super(screenpart,camera);
+    IronCreature(int screenpart){
+        super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/ironhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        imgURL = NikdeFicrus.class.getResource("res/ironhead.png");
+        notsayingImage = new ImageIcon(imgURL).getImage();
+        imgURL = NikdeFicrus.class.getResource("res/ironheadasking.png");
+        sayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/ironbody.png");
         bodyImage = new ImageIcon(imgURL).getImage();
         new Thread(this).start();
@@ -73,9 +77,28 @@ public class IronCreature extends Hero{
             int HIheight = BIheight * 107 / 520;
             int HIwidth = (116* HIheight / 107);
 
-            int H_B = height / 25;
+            double  deltay = 0;
+            double deltax=0;
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
-            g.drawImage(headImage, x + width/2-HIwidth/4, y + height- BIheight , HIwidth, HIheight, null);
+            Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,deltay,0);
+            double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+            int w = HIwidth, h=HIheight;
+            int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
+            double r =Math.sqrt((HIheight/2-deltay)*(HIheight/2-deltay)+deltax*deltax);
+
+            //п/36
+            double nanoAngle = Math.PI/72;
+            if (angle-newangle>nanoAngle){
+                angle-=nanoAngle;
+            }
+            if (newangle-angle>nanoAngle){
+                angle+=nanoAngle;
+            }
+            sin = Math.sin(angle);
+            cos = Math.cos(angle);
+            double x1 = sin*Math.sqrt(r*r-deltax*deltax)+deltax*cos;
+            double y1 =Math.sqrt(r*r-x1*x1);
+            g.drawImage(rotatedImage,(int)( x + width/2-HIwidth/4+(w-neww)/2+x1-deltax), (int)(y + height- BIheight+(h-newh)/2-y1+Math.sqrt(r*r-deltax*deltax)) , neww, newh, null);
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);

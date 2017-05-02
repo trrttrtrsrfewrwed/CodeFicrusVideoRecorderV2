@@ -8,10 +8,14 @@ import java.awt.event.MouseListener;
  * Created by Евросеть on 11.02.2017.
  */
 public class CharacterButton extends Button{
+    //ширина кнопки и высота, если у кнопки нет текста
     public static final int CONST=40;
+    //высота кнопки с текстом
     public static final int TextCONST =60;
+    //Номер героя, которому соответствует кнопка
     private int i=-1;
     String name="";
+    //Конструктор для кнопок древа (с текстом)
     public CharacterButton(int x, int y, ButtonImage buttonImage,String name){
         super(x,y,CONST,TextCONST,buttonImage);
         this.name=name;
@@ -22,6 +26,7 @@ public class CharacterButton extends Button{
     public int getI(){
         return i;
     }
+    //Конструктор для кнопок линейки (без текста)
     public CharacterButton(int x, int y, ButtonImage buttonImage){
         super(x,y,CONST,CONST,buttonImage);
     }
