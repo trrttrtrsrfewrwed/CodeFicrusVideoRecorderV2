@@ -166,8 +166,8 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
                 frameToResize.setBounds(x, y, width, height);
                 frameToResize.setWidth(width);
                 frameToResize.setHeight(height);
-                close.setBounds(width - close.width - 5, 5, close.width, close.height);
-                minimize.setBounds(width - close.width * 2 - 10, 12, close.width, close.height);
+                close.setBounds(width - close.getbwidth() - 5, 5, close.getbwidth(), close.getbheight());
+                minimize.setBounds(width - close.getbwidth() * 2 - 10, 12, close.getbwidth(), close.getbheight());
                 heroToResize.setBounds(VideoField.border, VideoField.border + VideoField.menuborder, width - VideoField.border * 2, height - VideoField.border * 2 - VideoField.menuborder);
             }
             com.sun.awt.AWTUtilities.setWindowShape(frameToResize, frameToResize.setShape(frameToResize.screenpart));

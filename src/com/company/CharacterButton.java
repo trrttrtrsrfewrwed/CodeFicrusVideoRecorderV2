@@ -14,12 +14,13 @@ public class CharacterButton extends Button{
     public static final int TextCONST =60;
     //Номер героя, которому соответствует кнопка
     private int i=-1;
-    String name="";
+    private String name="";
     //Конструктор для кнопок древа (с текстом)
     public CharacterButton(int x, int y, ButtonImage buttonImage,String name){
         super(x,y,CONST,TextCONST,buttonImage);
         this.name=name;
     }
+    //геттер и сеттер для номера героя
     public void setI(int i){
         this.i=i;
     }

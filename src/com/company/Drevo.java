@@ -99,7 +99,7 @@ public class Drevo extends JPanel{
         this.setLayout(null);
         //Добавление кнопок на древо
         for (int i=0;i<buttons.length;i++){
-            buttons[i].setBounds(buttons[i].x,buttons[i].y,buttons[i].width,buttons[i].height);
+            buttons[i].setBounds(buttons[i].getbx(),buttons[i].getby(),buttons[i].getbwidth(),buttons[i].getbheight());
             this.add(buttons[i]);
         }
 

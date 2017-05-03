@@ -66,9 +66,9 @@ public class VideoField extends JFrame {
                 videoField.cThread.start();
                 videoField.mThread.start();
                 Button close = new Button(0, 0, 10, 10, new ButtonImage("res/closeimage.png", "res/closeimageclicked.png", "res/closeimageentered.png"));
-                close.setBounds(1000 - close.width - 5, 5, close.width, close.height);
+                close.setBounds(1000 - close.getbwidth() - 5, 5, close.getbwidth(), close.getbheight());
                 Button minimize = new Button(0, 0, 10, 3, new ButtonImage("res/minimizeimage.png", "res/minimizeimageclicked.png", "res/minimizeimageentered.png"));
-                minimize.setBounds(1000 - close.width * 2 - 10, 12, close.width, close.height);
+                minimize.setBounds(1000 - close.getbwidth() * 2 - 10, 12, close.getbwidth(), close.getbheight());
                 close.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -288,29 +288,25 @@ public class VideoField extends JFrame {
         @Override
         public void run(){
             try {
-            AudioFormat audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100.0F, 16, 2, 4, 44100.0F, false);
-
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat);
-            TargetDataLine targetDataLine = (TargetDataLine) AudioSystem.getLine(info);
-
-            targetDataLine.open(audioFormat);
-
-            AudioInputStream audioInputStream = new AudioInputStream(targetDataLine);
-            byte[] buffer = new byte[4];
-
-            targetDataLine.start();
-            while (audioInputStream.read(buffer) > 0) {
-                int value = ((buffer[0] & 0xff) | (buffer[1] << 8)) << 16 >> 16;
-                if (value > 500) {
-                    hero.headImage = hero.sayingImage;
-                } else {
-                    hero.headImage = hero.notsayingImage;
+                AudioFormat audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100.0F, 16, 2, 4, 44100.0F, false);
+                DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat);
+                TargetDataLine targetDataLine = (TargetDataLine) AudioSystem.getLine(info);
+                targetDataLine.open(audioFormat);
+                AudioInputStream audioInputStream = new AudioInputStream(targetDataLine);
+                byte[] buffer = new byte[4];
+                targetDataLine.start();
+                while (audioInputStream.read(buffer) > 0) {
+                    int value = ((buffer[0] & 0xff) | (buffer[1] << 8)) << 16 >> 16;
+                    if (value > 500) {
+                        hero.headImage = hero.sayingImage;
+                    } else {
+                        hero.headImage = hero.notsayingImage;
+                    }
                 }
-            }
-            targetDataLine.stop();
-            targetDataLine.close();
-        } catch(Exception e){}
-    }
+                targetDataLine.stop();
+                targetDataLine.close();
+            } catch(Exception e){}
+        }
     }
     private  class CameraThread extends Thread  {
         @Override
@@ -334,10 +330,10 @@ public class VideoField extends JFrame {
                                 try {
                                     hero.newangle = -Math.atan((newPosition.x - VideoField.center.x) / (VideoField.center.y - newPosition.y));
                                 } catch(Exception e){}
-                                }
                             }
                         }
                     }
+                }
             }
 
         }

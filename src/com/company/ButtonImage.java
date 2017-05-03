@@ -9,11 +9,11 @@ public class ButtonImage {
     private Image imageClicked;
     private Image imageEntered;
     public ButtonImage(String image,String imageClicked,String imageEntered){
-        URL imgURL = MyRect.class.getResource(image);
+        URL imgURL = Main.class.getResource(image);
         this.image = new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource(imageClicked);
+        imgURL = Main.class.getResource(imageClicked);
         this.imageClicked = new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource(imageEntered);
+        imgURL = Main.class.getResource(imageEntered);
         this.imageEntered = new ImageIcon(imgURL).getImage();
     }
     public Image getImage(){

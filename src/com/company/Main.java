@@ -105,7 +105,7 @@ public class Main extends JFrame{
         panel.add(scrollPane);
         //Создание кнопки закрыть
         Button close = new Button(0,0,20,20,new ButtonImage("res/closeimage.png","res/closeimageclicked.png","res/closeimageentered.png"));
-        close.setBounds(825,65,close.width,close.height);
+        close.setBounds(825,65,close.getbwidth(),close.getbheight());
         close.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -114,33 +114,33 @@ public class Main extends JFrame{
 
             @Override
             public void mousePressed(MouseEvent e) {
-                close.k=1;
+                close.setbk(1);
                 frame.repaint();
 
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                close.k=0;
+                close.setbk(0);
                 frame.repaint();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                close.k=-1;
+                close.setbk(-1);
                 frame.repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                close.k=0;
+                close.setbk(0);
                 frame.repaint();
             }
         });
         panel.add(close);
         //Создание кнопки свернуть
         Button minimize = new Button(0,0,20,5,new ButtonImage("res/minimizeimage.png","res/minimizeimageclicked.png","res/minimizeimageentered.png"));
-        minimize.setBounds(800,80,close.width,close.height);
+        minimize.setBounds(800,80,close.getbwidth(),close.getbheight());
         minimize.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -149,32 +149,32 @@ public class Main extends JFrame{
 
             @Override
             public void mousePressed(MouseEvent e) {
-                minimize.k=1;
+                minimize.setbk(1);
                 frame.repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                minimize.k=0;
+                minimize.setbk(0);
                 frame.repaint();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                minimize.k=-1;
+                minimize.setbk(-1);
                 frame.repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                minimize.k=0;
+                minimize.setbk(0);
                 frame.repaint();
             }
         });
         panel.add(minimize);
         //Создание кнопки play, запускающей видеорекордер
         Button playbutton = new Button(0,0,80,92,new ButtonImage("res/playbutton.png","res/playbuttonclicked.png","res/playbuttonentered.png"));
-        playbutton.setBounds(760,410,playbutton.width,playbutton.height);
+        playbutton.setBounds(760,410,playbutton.getbwidth(),playbutton.getbheight());
         playbutton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -189,25 +189,25 @@ public class Main extends JFrame{
 
             @Override
             public void mousePressed(MouseEvent e) {
-                playbutton.k=1;
+                playbutton.setbk(1);
                 frame.repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                playbutton.k=0;
+                playbutton.setbk(0);
                 frame.repaint();
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                playbutton.k=-1;
+                playbutton.setbk(-1);
                 frame.repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                playbutton.k=0;
+                playbutton.setbk(0);
                 frame.repaint();
             }
         });
@@ -220,19 +220,19 @@ public class Main extends JFrame{
         frame.setVisible(true);
         //  Добавляю изображения героев и базовое изображение, если ни один герой не выбран
         frame.HeroImage = new Image[6];
-        URL imgURL = MyRect.class.getResource("res/Nikreview.png");
+        URL imgURL = Main.class.getResource("res/Nikreview.png");
         frame.HeroImage[0]=new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource("res/alienreview.png");
+        imgURL = Main.class.getResource("res/alienreview.png");
         frame.HeroImage[1]=new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource("res/ironreview.png");
+        imgURL = Main.class.getResource("res/ironreview.png");
         frame.HeroImage[2]=new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource("res/liftenreview.png");
+        imgURL = Main.class.getResource("res/liftenreview.png");
         frame.HeroImage[3]=new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource("res/dragonreview.png");
+        imgURL = Main.class.getResource("res/dragonreview.png");
         frame.HeroImage[4]=new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource("res/droidreview.png");
+        imgURL = Main.class.getResource("res/droidreview.png");
         frame.HeroImage[5]=new ImageIcon(imgURL).getImage();
-        imgURL = MyRect.class.getResource("res/basicimagereview.png");
+        imgURL = Main.class.getResource("res/basicimagereview.png");
         frame.basicImage=new ImageIcon(imgURL).getImage();
         frame.init();
 
@@ -278,8 +278,8 @@ public class Main extends JFrame{
             int x = e.getX();
             int y = e.getY();
             for (int i = 0; i < drevo.buttons.length; i++) {
-                if (!drevo.buttons[i].rect.contains(x, y)) {
-                    drevo.buttons[i].k = 0;
+                if (!drevo.buttons[i].getbrect().contains(x, y)) {
+                    drevo.buttons[i].setbk(0);
                 }
 
             }
@@ -314,8 +314,8 @@ public class Main extends JFrame{
             int x = e.getX();
             int y = e.getY();
             for (int i=0;i<heroline.buttons.length;i++){
-                if (!heroline.buttons[i].rect.contains(x,y)){
-                    heroline.buttons[i].k=0;
+                if (!heroline.buttons[i].getbrect().contains(x,y)){
+                    heroline.buttons[i].setbk(0);
                 }
             }
             repaint();
@@ -356,18 +356,18 @@ public class Main extends JFrame{
 
             for (int i=0;i<drevo.buttons.length;i++){
                 if (i==n){
-                    drevo.buttons[i].k=1;
+                    drevo.buttons[i].setbk(1);
                     review.setImage(HeroImage[i]);
                     for (int j = 0; j < heroline.buttons.length; j++) {
-                        if (heroline.buttons[j].k == 1) {
+                        if (heroline.buttons[j].getbk() == 1) {
                             heroline.buttons[j].setImage(drevo.buttons[i].getImage());
                             heroline.buttons[j].setI(i);
-                            heroline.buttons[j].k = 1;
+                            heroline.buttons[j].setbk( 1);
                         }
                     }
                 }
                 else {
-                    drevo.buttons[i].k=0;
+                    drevo.buttons[i].setbk(0);
                 }
             }
             repaint();
@@ -385,16 +385,16 @@ public class Main extends JFrame{
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if (button.k!=1){
-                button.k=-1;
+            if (button.getbk()!=1){
+                button.setbk(-1);
             }
             repaint();
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if (button.k!=1){
-                button.k=0;
+            if (button.getbk()!=1){
+                button.setbk(0);
             }
             repaint();
         }
@@ -413,14 +413,14 @@ public class Main extends JFrame{
         public void mouseClicked(MouseEvent e) {
             for (int i=0;i<heroline.buttons.length;i++){
                 if (i==n){
-                    heroline.buttons[i].k=1;
+                    heroline.buttons[i].setbk(1);
                     if (heroline.buttons[i].getI()>=0){
                         for (int j=0;j<drevo.buttons.length;j++){
                             if (heroline.buttons[i].getI()==j){
-                                drevo.buttons[j].k=1;
+                                drevo.buttons[j].setbk(1);
                             }
                             else {
-                                drevo.buttons[j].k=0;
+                                drevo.buttons[j].setbk(0);
                             }
                         }
                         review.setImage(HeroImage[heroline.buttons[i].getI()]);
@@ -430,7 +430,7 @@ public class Main extends JFrame{
 
                 }
                 else {
-                    heroline.buttons[i].k=0;
+                    heroline.buttons[i].setbk(0);
                 }
             }
             repaint();
@@ -448,16 +448,16 @@ public class Main extends JFrame{
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if (button.k!=1){
-                button.k=-1;
+            if (button.getbk()!=1){
+                button.setbk(-1);
             }
             repaint();
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if (button.k!=1){
-                button.k=0;
+            if (button.getbk()!=1){
+                button.setbk(0);
             }
             repaint();
         }
