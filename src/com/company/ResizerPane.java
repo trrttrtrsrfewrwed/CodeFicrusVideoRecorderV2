@@ -13,20 +13,30 @@ import static com.company.VideoField.menuborder;
  * Created by Евросеть on 15.03.2017.
  */
 public class ResizerPane extends JPanel implements MouseMotionListener, MouseListener {
+    //координаты мыши
     private int posX;
     private int posY;
+    //точка, в которой мышь была нажата
     private Point lastDragPosition;
+    //фрейм, герой, кнопки "закрыть" и "свернуть", положение и размеры которых нужно изменить
     private VideoField frameToResize;
     private Hero heroToResize;
     public Button close;
     public Button minimize;
+    //Часть рамки, за которую осуществляется сдвиг или масштабирование
     private int dragDirection;
+    //Режим видеорекордера
+    /* 0 - ожидание
+       1 - съемка    */
     private int k=0;
+    //Ширина области, при нажатии на которую будет происходить масштабирование
     private int RESIZE_BORDER_SIZE=VideoField.border;
-    private int NORTH =1;
-    private int SOUTH=3;
-    private int WEST=7;
-    private int EAST=13;
+
+    //Переменные, однозначно характеризующие стороны рамки
+    private final int NORTH =1;
+    private final int SOUTH=3;
+    private final int WEST=7;
+    private final int EAST=13;
 
     public ResizerPane(VideoField frame,Hero hero,Button close,Button minimize){
         frameToResize=frame;
@@ -40,6 +50,7 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
     public void setK(int k){
         this.k=k;
     }
+    public int getK(){return k;}
     public void paintComponent(Graphics g){
         if (k==0){
             g.setColor(Color.GRAY);
@@ -55,6 +66,8 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
         g.setColor(Color.BLACK);
         g.fillRect(0,0, getWidth(), menuborder);
     }
+
+    //Определяет, в какой стороне или в каком углу рамки находится точка с данными координатами
     private int getBorderSide(int x, int y) {
         int result = 0;
 
@@ -68,11 +81,12 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
             result += SOUTH;
         return result;
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
     }
-
+    //определяет положение мыши в начале сдвига
     @Override
     public void mousePressed(MouseEvent e) {
         lastDragPosition = e.getLocationOnScreen();
@@ -98,6 +112,7 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
 
     }
 
+    //Определяет, на сколько была сдвинута мышь, и меняет размеры или положение фрейма в зависимости от начального положения мыши
     @Override
     public void mouseDragged(MouseEvent e) {
         Point currentDragPosition = e.getLocationOnScreen();
@@ -122,7 +137,8 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
 
             int X = thisX + xMoved;
             int Y = thisY + yMoved;
-            frameToResize.setLocation(X, Y);
+            if (k==0){
+            frameToResize.setLocation(X, Y);}
         } else {
             if (dragDirection == WEST) {
                 x = currentBounds.x + deltaX;
@@ -162,7 +178,7 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
                 x = currentBounds.x + deltaX;
                 width = currentBounds.width - deltaX;
             }
-            if (width >= VideoField.border * 20 && height >= (VideoField.border * 2 + menuborder)) {
+            if (width >= VideoField.border * 20 && height >= (VideoField.border * 2 + menuborder) && k==0) {
                 frameToResize.setBounds(x, y, width, height);
                 frameToResize.setWidth(width);
                 frameToResize.setHeight(height);
@@ -170,11 +186,12 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
                 minimize.setBounds(width - close.getbwidth() * 2 - 10, 12, close.getbwidth(), close.getbheight());
                 heroToResize.setBounds(VideoField.border, VideoField.border + VideoField.menuborder, width - VideoField.border * 2, height - VideoField.border * 2 - VideoField.menuborder);
             }
-            com.sun.awt.AWTUtilities.setWindowShape(frameToResize, frameToResize.setShape(frameToResize.screenpart));
+            com.sun.awt.AWTUtilities.setWindowShape(frameToResize, frameToResize.setShape(frameToResize.getScreenpart()));
             lastDragPosition = currentDragPosition;
         }
     }
 
+    //Изменяет изображение курсора в зависимости от положения над рамкой
     @Override
     public void mouseMoved(MouseEvent e) {
         int border = getBorderSide(e.getX(), e.getY());

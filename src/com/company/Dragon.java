@@ -11,10 +11,12 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class Dragon extends Hero {
+    //пояснения см. в классе NikdeFicrus
     Dragon(int screenpart){
         super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/dragonhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        checkImage  = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/dragonhead.png");
         notsayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/dragonheadasking.png");

@@ -11,10 +11,12 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class Alien extends Hero{
+    //пояснения см. в классе NikdeFicrus
     Alien(int screenpart){
         super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/Alienhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        checkImage  = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Alienhead.png");
         notsayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Alienheadasking.png");

@@ -21,6 +21,7 @@ public class NikdeFicrus extends Hero {
         super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/Nikhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        checkImage  = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Nikhead.png");
         notsayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/Nikheadasking.png");
@@ -30,6 +31,7 @@ public class NikdeFicrus extends Hero {
         new Thread(this).start();
     }
 
+    //Функция, рисующая кадр анимации с данным номером данной кистью в данных границах
     public void Mainfunction(Graphics g, int x, int y, int width, int height, int i) {
         int Sheight = height * 583 / 924;
         int Swidth = Sheight * 599 / 583;
@@ -44,10 +46,11 @@ public class NikdeFicrus extends Hero {
         g.drawImage(Nikimage, x + width / 2 - Nikwidth / 2, y + height - Nikheight, Nikwidth, Nikheight, null);
         g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);
     }
-    private int i = 0;
+    private int i = 0; // количество кадров с начала анимации
 
     @Override
     public void paint(Graphics g) {
+        //Определение границ, в которых будет нарисован герой, в зависимости от режима рисования
         if (screenpart == 1) {
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             Rectangle Herobounds = new Rectangle((int) dim.getWidth() / 6, (int) dim.getHeight() / 4);
@@ -64,7 +67,7 @@ public class NikdeFicrus extends Hero {
             height = getHeight();
         }
 
-
+        //если нужно выполнить функцию, рисуется следующий кадр анимации
         if (isFunk == 1) {
             Mainfunction(g, x, y, width, height, i);
             i++;
@@ -73,9 +76,11 @@ public class NikdeFicrus extends Hero {
                 i = 0;
             }
         }
+        //Если функция не выполняется, рисуется персонаж
         if (isFunk == 0) {
             g.setColor(Color.white);
             g.fillRect(x, y, width, height);
+            //Получение размеров головы и тела героя в зависимости от размеров области рисования и пропорций головы и тела
             int Sheight = height * 583 / 924;
             int Swidth = Sheight * 599 / 583;
             int HIheight = Sheight * 157 / 583;
@@ -83,12 +88,15 @@ public class NikdeFicrus extends Hero {
             int BIwidth = Swidth;
             int BIheight = BIwidth * 652 / 400;
 
+            //высота шеи
             double  deltay = 924 / 3925;
+            //смещение головы по горизонтали
             double  deltax=0;
-            //Point newPosition = new Point(20,20);
-            //double angle = Math.atan((newPosition.x-VideoField.center.x)/(newPosition.y-VideoField.center.y));
-
+            //Изначально голова персонажа поворачивается относительно середины по горизонтали и нижней точки по вертикали
+            //Если голова не симметрична, координаты точки поворота смещаются на deltay вверх и deltax влево
+            //рисование тела
             g.drawImage(bodyImage, x + width/2 - BIwidth / 2, y +height- BIheight, BIwidth, BIheight, null);
+            //Получение повернутого изображения головы
             Image rotatedImage = rotate(Main.toBufferedImage(headImage),angle,deltay,deltax);
             deltay = height/25;
             double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
@@ -108,7 +116,9 @@ public class NikdeFicrus extends Hero {
             cos = Math.cos(angle);
             double x1 = sin*Math.sqrt(r*r-deltax*deltax)+deltax*cos;
             double y1 =Math.sqrt(r*r-x1*x1);
+            //Рисование головы таким образом, чтобы точка поворота всегда оставалась неподвижной
             g.drawImage(rotatedImage, (int)(x + width*97 / 200+height*83*154/(924*103)-HIwidth+(w-neww)/2+x1-deltax), (int)(y + height*26/25- BIheight*275/400 - HIheight +(h-newh)/2+-y1+Math.sqrt(r*r-deltax*deltax)), neww,newh, null);
+            //рисование стола
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
             g.drawImage(stol, x + width / 2 - Swidth / 2, y + height - Sheight, Swidth, Sheight, null);

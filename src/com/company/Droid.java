@@ -11,10 +11,12 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class Droid extends Hero {
+    //пояснения см. в классе NikdeFicrus
     Droid(int screenpart){
         super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/droidhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        checkImage  = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/droidhead.png");
         notsayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/droidheadasking.png");

@@ -11,10 +11,12 @@ import java.util.TimerTask;
  * Created by Евросеть on 30.03.2017.
  */
 public class IronCreature extends Hero{
+    //пояснения см. в классе NikdeFicrus
     IronCreature(int screenpart){
         super(screenpart);
         URL imgURL = NikdeFicrus.class.getResource("res/ironhead.png");
         headImage = new ImageIcon(imgURL).getImage();
+        checkImage  = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/ironhead.png");
         notsayingImage = new ImageIcon(imgURL).getImage();
         imgURL = NikdeFicrus.class.getResource("res/ironheadasking.png");
