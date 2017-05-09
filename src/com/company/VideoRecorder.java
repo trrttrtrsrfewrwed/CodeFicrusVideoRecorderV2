@@ -56,8 +56,4 @@ null,//
         }
     }
 
-    public Mixer getMixer(){
-        return screenRecorder.getAudioMixer();
-    }
-
 }

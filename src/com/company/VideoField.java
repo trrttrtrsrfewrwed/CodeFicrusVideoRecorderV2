@@ -43,9 +43,6 @@ public class VideoField extends JFrame {
 
     private VideoRecorder videorecorder = new VideoRecorder();
 
-
-    private VideoField() {
-    }
     public int getScreenpart(){
         return screenpart;
     }
