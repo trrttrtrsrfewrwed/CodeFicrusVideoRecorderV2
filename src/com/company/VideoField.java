@@ -95,7 +95,7 @@ public class VideoField extends JFrame {
                 VideoField.center = new Point(300, 400);
                 //запуск потоков, отвечающих за микрофон и камеру
                 videoField.cThread.start();
-                //videoField.mThread.start();
+                videoField.mThread.start();
                 //создаем кнопки "закрыть" и "свернуть" и добавляем к ним слушатели
                 Button close = new Button(0, 0, 10, 10, new ButtonImage("res/closeimage.png", "res/closeimageclicked.png", "res/closeimageentered.png"));
                 close.setBounds(1000 - close.getbwidth() - 5, 5, close.getbwidth(), close.getbheight());
@@ -179,7 +179,6 @@ public class VideoField extends JFrame {
                             if (resize.getK()==0){
                             Rectangle rect = new Rectangle(videoField.getX()+border,videoField.getY()+menuborder+border,videoField.getWidth()-border*2,videoField.getHeight()-border*2-menuborder);
                             videoField.videorecorder.startRecording(rect);
-                            videoField.mThread.start();
                             resize.setK(1);
                             play.setbk(1);}
                             else {
@@ -428,10 +427,12 @@ public class VideoField extends JFrame {
                 byte[] buffer = new byte[4];
                 targetDataLine.start();
                 while (audioInputStream.read(buffer) > 0) {
-                    System.out.println("value");
+                    try {
+                        this.sleep(30);
+                    }catch(Exception e){}
                     if (hero.isFunk==0){
                         int value = ((buffer[0] & 0xff) | (buffer[1] << 8)) << 16 >> 16;
-                        if (value > 500) {
+                        if (value > 1000) {
                             hero.setCheckImage(hero.getSayingImage());
                         } else {
                             hero.setCheckImage(hero.getNotSayingImage());
@@ -458,6 +459,9 @@ public class VideoField extends JFrame {
                 Mat frame = new Mat();
                 CascadeClassifier faceDetector = new CascadeClassifier("lbpcascade_frontalface.xml");
                 while (true) {
+                    try {
+                        this.sleep(30);
+                    }catch(Exception e){}
                     if (hero.isFunk == 0) {
                         MatOfRect faceDetections = new MatOfRect();
                         if (camera.read(frame)) {
@@ -473,6 +477,7 @@ public class VideoField extends JFrame {
                                 }
                             }
                         }
+
                     }
                 }
             }

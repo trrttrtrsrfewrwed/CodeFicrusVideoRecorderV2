@@ -205,7 +205,7 @@ public class ResizerPane extends JPanel implements MouseMotionListener, MouseLis
                 return;
             }
             else {
-                if (border == EAST || border == WEST) {
+                if (border == EAST || border == WEST)  {
                     setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
                     return;
                 }

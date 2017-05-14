@@ -38,9 +38,9 @@ public class VideoRecorder {
 // the output format for mouse capture
 null,//
 // the output format for audio capture
-                    new Format(MediaTypeKey, MediaType.AUDIO, EncodingKey, ENCODING_QUICKTIME_TWOS_PCM, FrameRateKey,
+                   /* new Format(MediaTypeKey, MediaType.AUDIO, EncodingKey, ENCODING_QUICKTIME_TWOS_PCM, FrameRateKey,
                             new Rational(48000, 1), SampleSizeInBitsKey, 16, ChannelsKey, 1, SampleRateKey, new Rational(48000, 1),
-                            SignedKey, true, ByteOrderKey, ByteOrder.BIG_ENDIAN), null);
+                            SignedKey, true, ByteOrderKey, ByteOrder.BIG_ENDIAN)*/null, null);
             this.screenRecorder.start();
 
         } catch (Exception e) {

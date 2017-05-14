@@ -87,8 +87,8 @@ public class Main extends JFrame{
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //устанавливаю форму фрейма
         frame.setUndecorated(true);
-       /*URL imgURL = Main.class.getResource("menu.png");
-        Image image = new ImageIcon(imgURL).getImage();
+       URL imgURL = Main.class.getResource("menu.png");
+        /*Image image = new ImageIcon(imgURL).getImage();
         BufferedImage img = toBufferedImage(image);
         Shape shape = contour(img);
         com.sun.awt.AWTUtilities.setWindowShape(frame, shape);*/
@@ -220,7 +220,7 @@ public class Main extends JFrame{
         frame.setVisible(true);
         //  Добавляю изображения героев и базовое изображение, если ни один герой не выбран
         frame.HeroImage = new Image[6];
-        URL imgURL = Main.class.getResource("res/Nikreview.png");
+        imgURL = Main.class.getResource("res/Nikreview.png");
         frame.HeroImage[0]=new ImageIcon(imgURL).getImage();
         imgURL = Main.class.getResource("res/alienreview.png");
         frame.HeroImage[1]=new ImageIcon(imgURL).getImage();
@@ -240,21 +240,13 @@ public class Main extends JFrame{
 
         frame.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-
                 frame.posX = e.getX();
                 frame.posY = e.getY();
-
-
             }
         });
-
-
-
-
         frame.addMouseMotionListener(new MouseMotionAdapter() {
 
             public void mouseDragged(MouseEvent e) {
-
                 int thisX = frame.getLocation().x;
                 int thisY = frame.getLocation().y;
 
@@ -273,18 +265,18 @@ public class Main extends JFrame{
     //если клик произошёл в древе, но ни одна кнопка не нажата, делает все кнопки ненажатыми.
     private class DrevoMouseListener implements MouseListener{
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            int x = e.getX();
-            int y = e.getY();
-            for (int i = 0; i < drevo.buttons.length; i++) {
-                if (!drevo.buttons[i].getbrect().contains(x, y)) {
-                    drevo.buttons[i].setbk(0);
-                }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                for (int i = 0; i < drevo.buttons.length; i++) {
+                    if (!drevo.buttons[i].getbrect().contains(x, y)) {
+                        drevo.buttons[i].setbk(0);
+                    }
 
+                }
+                repaint();
             }
-            repaint();
-        }
 
         @Override
         public void mousePressed(MouseEvent e) {

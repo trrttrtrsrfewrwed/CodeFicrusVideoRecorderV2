@@ -117,7 +117,7 @@ public class NikdeFicrus extends Hero {
             double x1 = sin*Math.sqrt(r*r-deltax*deltax)+deltax*cos;
             double y1 =Math.sqrt(r*r-x1*x1);
             //Рисование головы таким образом, чтобы точка поворота всегда оставалась неподвижной
-            g.drawImage(rotatedImage, (int)(x + width*97 / 200+height*83*154/(924*103)-HIwidth+(w-neww)/2+x1-deltax), (int)(y + height*26/25- BIheight*275/400 - HIheight +(h-newh)/2+-y1+Math.sqrt(r*r-deltax*deltax)), neww,newh, null);
+            g.drawImage(rotatedImage, (int)(x + width*97 / 200+height*83*154/(924*103)-HIwidth+(w-neww)/2+x1-deltax), (int)(y + height*26/25- BIheight*275/400 - HIheight +(h-newh)/2-y1+Math.sqrt(r*r-deltax*deltax)), neww,newh, null);
             //рисование стола
             URL imgURL = NikdeFicrus.class.getResource("res/stolv.png");
             Image stol = new ImageIcon(imgURL).getImage();
